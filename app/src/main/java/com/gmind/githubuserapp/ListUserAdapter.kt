@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.gmind.githubuserapp.model.User
 import kotlinx.android.synthetic.main.list_user.view.*
 
 class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
