@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.gmind.githubuserapp.model.User
 import kotlinx.android.synthetic.main.list_user.view.*
@@ -25,8 +26,8 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
 
     override fun onBindViewHolder(holder: ListUserAdapter.ListViewHolder, position: Int) {
         holder.bind(mData[position])
-        val variable = mData[position]
-        holder.itemView.setOnClickListener {
+       // val variable = mData[position]
+        /***holder.itemView.setOnClickListener {
             val intentData = User(
                 variable.username,
                 variable.name,
@@ -41,7 +42,7 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
             intent.putExtra(DetailActivity.EXTRA_DETAIL, intentData)
             it.context.startActivity(intent)
         }
-
+         ***/
     }
 
     override fun getItemCount(): Int = mData.size
@@ -49,13 +50,14 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(user: User) {
             with(itemView){
-                username.text = user.username
-                user_following.text = itemView.context.getString(R.string.following_ppl, user.following)
-                user_followers.text = itemView.context.getString(R.string.followers_ppl, user.followers)
+                tv_username.text = user.login
+                //user_following.text = itemView.context.getString(R.string.following_ppl, user.following)
+                //user_followers.text = itemView.context.getString(R.string.followers_ppl, user.followers)
                 Glide.with(itemView.context)
-                    .load(user.avatar)
+                    .load(user.avatar_url)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .apply(RequestOptions().override(100, 100))
-                    .into(img_user_photo)
+                    .into(iv_avatar)
             }
         }
     }
