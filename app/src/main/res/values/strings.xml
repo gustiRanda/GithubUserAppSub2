@@ -5,6 +5,7 @@
     <string name="following">Following</string>
     <string name="following_ppl">Following : %d</string>
     <string name="followers_ppl">Followers : %s</string>
+    <string name="search">Search</string>
 </resources>
 
 

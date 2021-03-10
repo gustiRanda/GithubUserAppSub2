@@ -6,34 +6,35 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmind.githubuserapp.api.Retrofit
 import com.gmind.githubuserapp.model.User
-import com.gmind.githubuserapp.model.UserResponse
+import com.gmind.githubuserapp.model.SearchResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel(){
+class UserViewModel : ViewModel(){
     val listUser = MutableLiveData<ArrayList<User>>()
 
-    fun setSearchUser(query: String){
+    fun setListUser(){
         Retrofit.apiInstance
-            .getSearchUser(query)
-            .enqueue(object : Callback<UserResponse>{
+            .getListUser()
+            .enqueue(object : Callback<ArrayList<User>>{
                 override fun onResponse(
-                    call: Call<UserResponse>,
-                    response: Response<UserResponse>
+                    call: Call<ArrayList<User>>,
+                    response: Response<ArrayList<User>>
                 ) {
                     if (response.isSuccessful){
-                        listUser.postValue(response.body()?.items)
+                        listUser.postValue(response.body())
+                        Log.d("Success", response.code().toString())
                     }
                 }
 
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                override fun onFailure(call: Call<ArrayList<User>>, t: Throwable) {
                     Log.d("Failure", t.message)
                 }
             })
     }
 
-    fun getSearchUser() : LiveData<ArrayList<User>>{
+    fun getListUser() : LiveData<ArrayList<User>>{
         return listUser
     }
 }

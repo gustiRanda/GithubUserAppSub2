@@ -1,5 +1,5 @@
 package com.gmind.githubuserapp.model
 
-data class UserResponse(
+data class SearchResponse(
     val items : ArrayList<User>
 )

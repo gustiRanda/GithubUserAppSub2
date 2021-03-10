@@ -1,36 +1,57 @@
 package com.gmind.githubuserapp
 
-import android.app.SearchManager
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.Menu
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gmind.githubuserapp.Search.SearchUserAdapter
+import com.gmind.githubuserapp.Search.SearchViewModel
+import com.gmind.githubuserapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter: ListUserAdapter
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var searchUserAdapter : SearchUserAdapter
+    private lateinit var searchViewModel : SearchViewModel
+
+    private lateinit var userAdapter : UserAdapter
+    private lateinit var userViewModel: UserViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        adapter = ListUserAdapter()
-        adapter.notifyDataSetChanged()
-        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        searchUserAdapter = SearchUserAdapter()
+        searchUserAdapter.notifyDataSetChanged()
 
-        rv_user.layoutManager = LinearLayoutManager(this@MainActivity)
+        searchViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            SearchViewModel::class.java)
+
+        userAdapter = UserAdapter()
+        userAdapter.notifyDataSetChanged()
+
+        userAdapter.setOnItemClickcallback(object : UserAdapter.OnItemClickCallback{
+            override fun onItemClicked(user: User) {
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
+                startActivity(intent)
+            }
+
+        })
+        userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(UserViewModel::class.java)
+
+        rv_search.layoutManager = LinearLayoutManager(this@MainActivity)
+        rv_search.setHasFixedSize(true)
+        rv_search.adapter = searchUserAdapter
+
+        rv_user.layoutManager = LinearLayoutManager(this)
         rv_user.setHasFixedSize(true)
-        rv_user.adapter = adapter
+        rv_user.adapter = userAdapter
 
         btn_search.setOnClickListener{
             searchUser()
@@ -44,10 +65,19 @@ class MainActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
+        listUser()
 
-        mainViewModel.getSearchUser().observe(this, Observer {
+
+        searchViewModel.getSearchUser().observe(this, Observer {
             if (it!=null){
-                adapter.setData(it)
+                searchUserAdapter.setData(it)
+                showLoading(false)
+            }
+        })
+
+        userViewModel.getListUser().observe(this, Observer {
+            if (it!=null){
+                userAdapter.setData(it)
                 showLoading(false)
             }
         })
@@ -91,7 +121,12 @@ class MainActivity : AppCompatActivity() {
         val query = et_query.text.toString()
         if (query.isEmpty()) return
         showLoading(true)
-        mainViewModel.setSearchUser(query)
+        searchViewModel.setSearchUser(query)
+    }
+
+    private fun listUser(){
+        showLoading(true)
+        userViewModel.setListUser()
     }
 
     private fun showLoading(state: Boolean) {

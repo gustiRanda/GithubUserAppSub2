@@ -1,17 +1,16 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.Search
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.gmind.githubuserapp.R
 import com.gmind.githubuserapp.model.User
 import kotlinx.android.synthetic.main.list_user.view.*
 
-class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+class SearchUserAdapter : RecyclerView.Adapter<SearchUserAdapter.ListViewHolder>() {
     private val mData = ArrayList<User>()
 
     fun setData(items: ArrayList<User>){
@@ -19,12 +18,12 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
         mData.addAll(items)
         notifyDataSetChanged()
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListUserAdapter.ListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val mView = LayoutInflater.from(parent.context).inflate(R.layout.list_user, parent, false)
         return ListViewHolder(mView)
     }
 
-    override fun onBindViewHolder(holder: ListUserAdapter.ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(mData[position])
        // val variable = mData[position]
         /***holder.itemView.setOnClickListener {
@@ -55,7 +54,6 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
                 //user_followers.text = itemView.context.getString(R.string.followers_ppl, user.followers)
                 Glide.with(itemView.context)
                     .load(user.avatar_url)
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .apply(RequestOptions().override(100, 100))
                     .into(iv_avatar)
             }

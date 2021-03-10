@@ -26,8 +26,8 @@
                 android:id="@+id/et_query"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:maxLines="1"
-                android:hint="Search" />
+                android:hint="@string/search"
+                android:maxLines="1"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
@@ -36,6 +36,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:src="@drawable/ic_search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_marginTop="100dp"
+            android:layout_width="370dp"
+            android:layout_height="100dp"
+            android:background="@color/colorInside"
+            tools:listitem="@layout/list_user" />
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
