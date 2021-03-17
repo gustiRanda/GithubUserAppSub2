@@ -25,12 +25,12 @@ class DetailViewModel : ViewModel(){
                 ) {
                     if (response.isSuccessful){
                         detailUser.postValue(response.body())
-                        Log.d("Success", response.code().toString())
+                        Log.d("Get Detail Success", response.code().toString())
                     }
                 }
 
                 override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
-                    Log.d("Failure", t.message)
+                    Log.d("Get Detail Failure", t.message)
                 }
             })
     }

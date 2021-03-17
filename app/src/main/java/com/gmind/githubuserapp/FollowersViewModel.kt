@@ -11,30 +11,30 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserViewModel : ViewModel(){
-    val listUser = MutableLiveData<ArrayList<User>>()
+class FollowersViewModel : ViewModel(){
+    val listFollowers = MutableLiveData<ArrayList<User>>()
 
-    fun setListUser(){
+    fun setFollowersUser(username : String){
         Retrofit.apiInstance
-            .getListUser()
+            .getFollowers(username)
             .enqueue(object : Callback<ArrayList<User>>{
                 override fun onResponse(
                     call: Call<ArrayList<User>>,
                     response: Response<ArrayList<User>>
                 ) {
                     if (response.isSuccessful){
-                        listUser.postValue(response.body())
-                        Log.d("Success", response.code().toString())
+                        listFollowers.postValue(response.body())
+                        Log.d("Get Followers Success", response.code().toString())
                     }
                 }
 
                 override fun onFailure(call: Call<ArrayList<User>>, t: Throwable) {
-                    Log.d("Failure", t.message)
+                    Log.d("Get Followers Failure", t.message)
                 }
             })
     }
 
-    fun getListUser() : LiveData<ArrayList<User>>{
-        return listUser
+    fun getFollowersUser() : LiveData<ArrayList<User>>{
+        return listFollowers
     }
 }

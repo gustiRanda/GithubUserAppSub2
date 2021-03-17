@@ -1,23 +1,28 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gmind.githubuserapp.Search.SearchUserAdapter
-import com.gmind.githubuserapp.Search.SearchViewModel
+import com.gmind.githubuserapp.DetailActivity
+import com.gmind.githubuserapp.R
 import com.gmind.githubuserapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+/*
     private lateinit var searchUserAdapter : SearchUserAdapter
     private lateinit var searchViewModel : SearchViewModel
 
+
+ */
     private lateinit var userAdapter : UserAdapter
     private lateinit var userViewModel: UserViewModel
 
@@ -25,17 +30,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+/*
         searchUserAdapter = SearchUserAdapter()
         searchUserAdapter.notifyDataSetChanged()
 
         searchViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
             SearchViewModel::class.java)
 
+
+ */
         userAdapter = UserAdapter()
         userAdapter.notifyDataSetChanged()
 
-        userAdapter.setOnItemClickcallback(object : UserAdapter.OnItemClickCallback{
+        userAdapter.setOnItemClickcallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: User) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
@@ -43,11 +50,9 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-        userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            UserViewModel::class.java)
 
-        rv_search.layoutManager = LinearLayoutManager(this@MainActivity)
-        rv_search.setHasFixedSize(true)
-        rv_search.adapter = searchUserAdapter
 
         rv_user.layoutManager = LinearLayoutManager(this)
         rv_user.setHasFixedSize(true)
@@ -68,9 +73,9 @@ class MainActivity : AppCompatActivity() {
         listUser()
 
 
-        searchViewModel.getSearchUser().observe(this, Observer {
+        userViewModel.getSearchUser().observe(this, Observer {
             if (it!=null){
-                searchUserAdapter.setData(it)
+                userAdapter.setData(it)
                 showLoading(false)
             }
         })
@@ -81,10 +86,19 @@ class MainActivity : AppCompatActivity() {
                 showLoading(false)
             }
         })
-
         //getDataUser()
     }
-
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.change_language) {
+            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
   /*  override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.nav_menu, menu)
@@ -121,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         val query = et_query.text.toString()
         if (query.isEmpty()) return
         showLoading(true)
-        searchViewModel.setSearchUser(query)
+        userViewModel.setSearchUser(query)
     }
 
     private fun listUser(){
