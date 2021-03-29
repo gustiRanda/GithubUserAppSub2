@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClicked(user: User) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
+                intent.putExtra(DetailActivity.EXTRA_ID, user.id)
                 startActivity(intent)
             }
 
