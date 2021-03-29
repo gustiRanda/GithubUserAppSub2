@@ -1,8 +1,6 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.fragment.repository
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,24 +8,22 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gmind.githubuserapp.main.FollowAdapter
-import com.gmind.githubuserapp.main.UserAdapter
-import com.gmind.githubuserapp.main.UserViewModel
-import com.gmind.githubuserapp.model.User
-import kotlinx.android.synthetic.main.activity_main.*
+import com.gmind.githubuserapp.R
+import kotlinx.android.synthetic.main.activity_main.rv_progressBar
+import kotlinx.android.synthetic.main.fragment_repository.*
 
 
-class FollowingFragment : Fragment() {
+class RepositoryFragment : Fragment() {
 
-    private lateinit var followAdapter: FollowAdapter
-    private lateinit var followingViewModel: FollowingViewModel
+    private lateinit var repositoryAdapter: RepositoryAdapter
+    private lateinit var repositoryViewModel: RepositoryViewModel
 
     companion object {
         private const val ARG_USERNAME = "arg_username"
 
         @JvmStatic
         fun newInstance(username: String) =
-            FollowingFragment().apply {
+            RepositoryFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_USERNAME, username)
                 }
@@ -39,7 +35,7 @@ class FollowingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_following, container, false)
+        return inflater.inflate(R.layout.fragment_repository, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,25 +44,25 @@ class FollowingFragment : Fragment() {
 
         val username = arguments?.getString(ARG_USERNAME)
 
-        followAdapter = FollowAdapter()
-        followAdapter.notifyDataSetChanged()
+        repositoryAdapter = RepositoryAdapter()
+        repositoryAdapter.notifyDataSetChanged()
 
-        followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            FollowingViewModel::class.java)
+        repositoryViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            RepositoryViewModel::class.java)
 
 
-        rv_user.layoutManager = LinearLayoutManager(activity)
-        rv_user.setHasFixedSize(true)
-        rv_user.adapter = followAdapter
+        rv_repo.layoutManager = LinearLayoutManager(activity)
+        rv_repo.setHasFixedSize(true)
+        rv_repo.adapter = repositoryAdapter
 
         showLoading(true)
-        followingViewModel.setFollowingUser(username.toString())
+        repositoryViewModel.setRepositoryUser(username.toString())
 
 
         activity?.let {
-            followingViewModel.getFollowingUser().observe(it, Observer {
+            repositoryViewModel.getRepositoryUser().observe(it, Observer {
                 if (it != null) {
-                    followAdapter.setData(it)
+                    repositoryAdapter.setData(it)
                     showLoading(false)
                 }
             })

@@ -1,4 +1,4 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.fragment.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData

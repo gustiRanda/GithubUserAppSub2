@@ -1,4 +1,4 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.detail
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmind.githubuserapp.api.Retrofit
 import com.gmind.githubuserapp.model.DetailUserResponse
-import com.gmind.githubuserapp.model.User
-import com.gmind.githubuserapp.model.SearchResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

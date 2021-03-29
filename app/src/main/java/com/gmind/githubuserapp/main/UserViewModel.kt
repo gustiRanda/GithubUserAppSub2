@@ -5,15 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmind.githubuserapp.api.Retrofit
-import com.gmind.githubuserapp.model.User
 import com.gmind.githubuserapp.model.SearchResponse
+import com.gmind.githubuserapp.model.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserViewModel : ViewModel(){
     val listUser = MutableLiveData<ArrayList<User>>()
-
     fun setListUser(){
         Retrofit.apiInstance
             .getListUser()
@@ -38,7 +37,7 @@ class UserViewModel : ViewModel(){
         return listUser
     }
 
-    val listSearchUser = MutableLiveData<ArrayList<User>>()
+    //val listSearchUser = MutableLiveData<ArrayList<User>>()
 
     fun setSearchUser(query: String){
         Retrofit.apiInstance
@@ -49,7 +48,7 @@ class UserViewModel : ViewModel(){
                     response: Response<SearchResponse>
                 ) {
                     if (response.isSuccessful){
-                        listSearchUser.postValue(response.body()?.items)
+                        listUser.postValue(response.body()?.items)
                         Log.d("Get Search Success", response.code().toString())
                     }
                 }
@@ -61,6 +60,6 @@ class UserViewModel : ViewModel(){
     }
 
     fun getSearchUser() : LiveData<ArrayList<User>>{
-        return listSearchUser
+        return listUser
     }
 }

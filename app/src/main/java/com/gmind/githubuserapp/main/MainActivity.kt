@@ -11,18 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gmind.githubuserapp.DetailActivity
+import com.gmind.githubuserapp.detail.DetailActivity
 import com.gmind.githubuserapp.R
 import com.gmind.githubuserapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-/*
-    private lateinit var searchUserAdapter : SearchUserAdapter
-    private lateinit var searchViewModel : SearchViewModel
 
-
- */
     private lateinit var userAdapter : UserAdapter
     private lateinit var userViewModel: UserViewModel
 
@@ -30,15 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-/*
-        searchUserAdapter = SearchUserAdapter()
-        searchUserAdapter.notifyDataSetChanged()
 
-        searchViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            SearchViewModel::class.java)
-
-
- */
         userAdapter = UserAdapter()
         userAdapter.notifyDataSetChanged()
 
@@ -70,8 +57,25 @@ class MainActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        listUser()
+        //listUser()
+        showLoading(true)
+        userViewModel.setListUser()
 
+    /*    if (et_query != null){
+            userViewModel.getSearchUser().observe(this, Observer {
+                if (it!=null){
+                    userAdapter.setData(it)
+                    showLoading(false)
+                }
+            })
+        } else userViewModel.getListUser().observe(this, Observer {
+            if (it!=null){
+                userAdapter.setData(it)
+                showLoading(false)
+            }
+        })
+        
+     */
 
         userViewModel.getSearchUser().observe(this, Observer {
             if (it!=null){
@@ -86,61 +90,26 @@ class MainActivity : AppCompatActivity() {
                 showLoading(false)
             }
         })
-        //getDataUser()
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.change_language) {
-            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(intent)
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
         }
         return super.onOptionsItemSelected(item)
     }
-  /*  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.nav_menu, menu)
 
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.nav_search).actionView as SearchView
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                mainViewModel.setSearchUser(query)
-                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                mainViewModel.setSearchUser(newText)
-                return false
-            }
-        })
-        return true
-    }
-*/
-  /*  private fun getDataUser(){
-        mainViewModel.setUser(applicationContext)
-        showLoading(true)
-    }
-
-  */
 
     private fun searchUser(){
         val query = et_query.text.toString()
         if (query.isEmpty()) return
         showLoading(true)
         userViewModel.setSearchUser(query)
-    }
-
-    private fun listUser(){
-        showLoading(true)
-        userViewModel.setListUser()
     }
 
     private fun showLoading(state: Boolean) {

@@ -1,4 +1,4 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.gmind.githubuserapp.R
+import com.gmind.githubuserapp.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -34,7 +35,8 @@ class DetailActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra(EXTRA_USERNAME)
 
-        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            DetailViewModel::class.java)
 
         detailViewModel.setDetailUser(username)
         detailViewModel.getDetailUser().observe(this, Observer {

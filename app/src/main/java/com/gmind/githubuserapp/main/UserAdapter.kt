@@ -30,23 +30,6 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(mData[position])
-       // val variable = mData[position]
-        /***holder.itemView.setOnClickListener {
-            val intentData = User(
-                variable.username,
-                variable.name,
-                variable.company,
-                variable.avatar,
-                variable.location,
-                variable.repository,
-                variable.followers,
-                variable.following
-            )
-            val intent = Intent(it.context, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_DETAIL, intentData)
-            it.context.startActivity(intent)
-        }
-         ***/
     }
 
     override fun getItemCount(): Int = mData.size
@@ -56,8 +39,6 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
             with(itemView){
                 tv_username.text = user.login
-                //user_following.text = itemView.context.getString(R.string.following_ppl, user.following)
-                //user_followers.text = itemView.context.getString(R.string.followers_ppl, user.followers)
                 Glide.with(itemView.context)
                     .load(user.avatar_url)
                     .into(iv_avatar)

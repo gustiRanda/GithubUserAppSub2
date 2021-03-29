@@ -1,4 +1,4 @@
-package com.gmind.githubuserapp
+package com.gmind.githubuserapp.fragment.followers
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gmind.githubuserapp.main.FollowAdapter
+import com.gmind.githubuserapp.R
+import com.gmind.githubuserapp.fragment.FollowAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -40,7 +41,7 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val username = arguments?.getString(FollowersFragment.ARG_USERNAME)
+        val username = arguments?.getString(ARG_USERNAME)
 
         followAdapter = FollowAdapter()
         followAdapter.notifyDataSetChanged()
