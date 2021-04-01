@@ -11,10 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gmind.githubuserapp.FavoriteActivity
 import com.gmind.githubuserapp.detail.DetailActivity
 import com.gmind.githubuserapp.R
+import com.gmind.githubuserapp.SettingsActivity
 import com.gmind.githubuserapp.model.User
+import kotlinx.android.synthetic.main.activity_favorite.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.rv_progressBar
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
                 intent.putExtra(DetailActivity.EXTRA_ID, user.id)
+                intent.putExtra(DetailActivity.EXTRA_AVATAR_URL, user.avatar_url)
                 startActivity(intent)
             }
 
@@ -91,18 +96,43 @@ class MainActivity : AppCompatActivity() {
                 showLoading(false)
             }
         })
+
+        btn_favorite.setOnClickListener {
+            val intent = Intent(this@MainActivity, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
     }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+////        if (item.itemId == R.id.change_language) {
+////            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+////            startActivity(intent)
+//
+//        if (item.itemId == R.id.settings) {
+//            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+//            startActivity(intent)
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.change_language) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
+        when (item.itemId) {
+            R.id.change_language -> {
+                val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(intent)
+                return true
+            }
+            R.id.settings -> {
+                val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            else -> return true
         }
-        return super.onOptionsItemSelected(item)
     }
 
 

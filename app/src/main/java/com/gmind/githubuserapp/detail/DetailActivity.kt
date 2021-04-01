@@ -9,9 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.gmind.githubuserapp.FavoriteHelper
-import com.gmind.githubuserapp.R
-import com.gmind.githubuserapp.SectionsPagerAdapter
+import com.gmind.githubuserapp.*
 import com.gmind.githubuserapp.model.User
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,8 +18,9 @@ import kotlinx.android.synthetic.main.activity_detail.*
 class DetailActivity : AppCompatActivity() {
 
     companion object{
-        const val EXTRA_USERNAME = "extra_username"
-        const val EXTRA_ID = "extra_id"
+        const val EXTRA_USERNAME = "username"
+        const val EXTRA_ID = "id"
+        const val EXTRA_AVATAR_URL = "avatar_url"
 
 
         @StringRes
@@ -36,6 +35,8 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var favoriteHelper: FavoriteHelper
 
+//    private lateinit var favoriteAdapter: FavoriteAdapter
+
     private var favorite : User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,11 +44,9 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val username = intent.getStringExtra(EXTRA_USERNAME)
-
         val id = intent.getIntExtra(EXTRA_ID, 0)
-
+        val avatar_url = intent.getStringExtra(EXTRA_AVATAR_URL)
         val values = ContentValues()
-
         var statusFavorite = false
 
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
@@ -88,18 +87,26 @@ class DetailActivity : AppCompatActivity() {
         favoriteHelper = FavoriteHelper.getInstance(applicationContext)
         favoriteHelper.open()
 
+//        favoriteAdapter = FavoriteAdapter(this)
+
         favorite = intent.getParcelableExtra(EXTRA_ID)
-//        favorite = intent.getParcelableExtra(EXTRA_USERNAME)
 
         values.put(EXTRA_ID, id)
-//        values.put(EXTRA_USERNAME, username)
+        values.put(EXTRA_USERNAME, username)
+        values.put(EXTRA_AVATAR_URL, avatar_url)
+
+
 
 
         setStatusFavorite(statusFavorite)
         btn_favorite.setOnClickListener {
+
             statusFavorite = !statusFavorite
             favoriteHelper.insert(values)
             setStatusFavorite(statusFavorite)
+            favoriteHelper.delete(id.toString())
+//            favoriteHelper.delete(favorite?.id.toString())
+//            favoriteAdapter.removeItem()
         }
     }
 
@@ -109,7 +116,7 @@ class DetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
         } else {
             btn_favorite.setBackgroundResource(R.drawable.ic_favorite_false)
-            Toast.makeText(this, "Dihapus dari favorit", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Dihapus dari favorit", Toast.LENGTH_SHORT).show()
         }
     }
     override fun onSupportNavigateUp(): Boolean {

@@ -9,4 +9,9 @@
     <string name="following">Mengikuti</string>
     <string name="search">Cari</string>
     <string name="language">"Bahasa : "</string>
+    <string name="my_favorite_user">Pengguna Favorit Saya</string>
+    <string name="favorite_user">Pengguna Favorit</string>
+    <string name="settings">Pengaturan</string>
+    <string name="reminder">Atur Pengingat jam 09.00 Pagi</string>
+    <string name="time">09:00</string>
 </resources>

@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.gmind.githubuserapp.main.MainActivity">
+
     <item
         android:id="@+id/change_language"
         android:icon="@drawable/ic_language"
         android:title="Change Language"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
         app:showAsAction="always"/>
 </menu>

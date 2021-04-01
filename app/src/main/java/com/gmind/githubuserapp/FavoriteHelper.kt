@@ -5,12 +5,15 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.gmind.githubuserapp.DatabaseContract.UserColumns.Companion.ID_COLUMN
 import com.gmind.githubuserapp.DatabaseContract.UserColumns.Companion.TABLE_NAME
 import com.gmind.githubuserapp.DatabaseContract.UserColumns.Companion.USERNAME_COLUMN
 import kotlin.jvm.Throws
 
 class FavoriteHelper (context: Context){
+
+
 
     companion object{
         private const val DATABASE_TABLE = TABLE_NAME
@@ -48,27 +51,29 @@ class FavoriteHelper (context: Context){
             null,
             null,
             null,
-            "$ID_COLUMN, ASC"
+            "$ID_COLUMN ASC"
         )
     }
-
-    fun queryById(id: String): Cursor {
-        return database.query(
-            DATABASE_TABLE,
-            null,
-            "$ID_COLUMN = ?",
-            arrayOf(id),
-            null,
-            null,
-            null,
-            null)
-    }
+//
+//    fun queryById(id: String): Cursor {
+//        return database.query(
+//            DATABASE_TABLE,
+//            null,
+//            "$ID_COLUMN = ?",
+//            arrayOf(id),
+//            null,
+//            null,
+//            null,
+//            null)
+//    }
 
     fun insert(values: ContentValues?): Long {
+        Log.d("Insert","Proses")
         return database.insert(DATABASE_TABLE, null, values)
     }
 
     fun delete(id: String): Int {
+        Log.d("Delete","Proses")
         return database.delete(DATABASE_TABLE, "$ID_COLUMN = '$id'", null)
     }
 }
