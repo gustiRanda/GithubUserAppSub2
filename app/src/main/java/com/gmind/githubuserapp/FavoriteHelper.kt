@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
+import android.widget.Toast
 import com.gmind.githubuserapp.DatabaseContract.UserColumns.Companion.ID_COLUMN
 import com.gmind.githubuserapp.DatabaseContract.UserColumns.Companion.TABLE_NAME
 import com.gmind.githubuserapp.DatabaseContract.UserColumns.Companion.USERNAME_COLUMN
@@ -54,26 +55,35 @@ class FavoriteHelper (context: Context){
             "$ID_COLUMN ASC"
         )
     }
-//
-//    fun queryById(id: String): Cursor {
-//        return database.query(
-//            DATABASE_TABLE,
-//            null,
-//            "$ID_COLUMN = ?",
-//            arrayOf(id),
-//            null,
-//            null,
-//            null,
-//            null)
-//    }
 
-    fun insert(values: ContentValues?): Long {
+    fun queryById(id: String): Cursor {
+        return database.query(
+            DATABASE_TABLE,
+            null,
+            "$ID_COLUMN = ?",
+            arrayOf(id),
+            null,
+            null,
+            null,
+            null)
+    }
+
+    fun insert(values: ContentValues?, context: Context): Long {
+        Toast.makeText(context, context.getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show()
         Log.d("Insert","Proses")
         return database.insert(DATABASE_TABLE, null, values)
     }
 
-    fun delete(id: String): Int {
+    fun delete(id: String, context: Context): Int {
+        Toast.makeText(context, context.getString(R.string.removed_from_favorite), Toast.LENGTH_SHORT).show()
         Log.d("Delete","Proses")
         return database.delete(DATABASE_TABLE, "$ID_COLUMN = '$id'", null)
     }
+
+//    fun isFavorite(id: String): Boolean {
+//        val cursor: Cursor = queryById(id)
+//        if (cursor.moveToNext()) {
+//            return false
+//        }
+//    }
 }

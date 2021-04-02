@@ -14,4 +14,5 @@
     <string name="settings">Pengaturan</string>
     <string name="reminder">Atur Pengingat jam 09.00 Pagi</string>
     <string name="time">09:00</string>
+    <string name="reminder_message">Temukan Partner Anda di Github!</string>
 </resources>

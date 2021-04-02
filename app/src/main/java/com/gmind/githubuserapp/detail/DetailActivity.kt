@@ -1,6 +1,7 @@
 package com.gmind.githubuserapp.detail
 
 import android.content.ContentValues
+import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -91,20 +92,36 @@ class DetailActivity : AppCompatActivity() {
 
         favorite = intent.getParcelableExtra(EXTRA_ID)
 
+        //cek if favorite
+        val cursor : Cursor = favoriteHelper.queryById(id.toString())
+        if (cursor.moveToNext()){
+            statusFavorite = true
+            setStatusFavorite(true)
+        }
+
         values.put(EXTRA_ID, id)
         values.put(EXTRA_USERNAME, username)
         values.put(EXTRA_AVATAR_URL, avatar_url)
 
 
 
+//        statusFavorite = favoriteHelper.isFavorite(id.toString())
 
         setStatusFavorite(statusFavorite)
         btn_favorite.setOnClickListener {
-
             statusFavorite = !statusFavorite
-            favoriteHelper.insert(values)
-            setStatusFavorite(statusFavorite)
-            favoriteHelper.delete(id.toString())
+            if (statusFavorite){
+                favoriteHelper.insert(values, this)
+                setStatusFavorite(statusFavorite)
+            }
+            else{
+                favoriteHelper.delete(id.toString(), this)
+                setStatusFavorite(statusFavorite)
+            }
+//            statusFavorite = !statusFavorite
+//            favoriteHelper.insert(values)
+//            setStatusFavorite(statusFavorite)
+//            favoriteHelper.delete(id.toString())
 //            favoriteHelper.delete(favorite?.id.toString())
 //            favoriteAdapter.removeItem()
         }
@@ -113,7 +130,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setStatusFavorite(statusFavorite: Boolean) {
         if (statusFavorite) {
             btn_favorite.setBackgroundResource(R.drawable.ic_favorite_true)
-            Toast.makeText(this, "Ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
         } else {
             btn_favorite.setBackgroundResource(R.drawable.ic_favorite_false)
 //            Toast.makeText(this, "Dihapus dari favorit", Toast.LENGTH_SHORT).show()
